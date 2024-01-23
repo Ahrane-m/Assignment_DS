@@ -1,6 +1,7 @@
 import json
 import csv
 from pathlib import Path
+import pandas as pd
 
 
 def token_list_to_string(token_list):
@@ -22,7 +23,6 @@ def write_csv_file(field, data):
         writer = csv.writer(f)
         writer.writerow(field)
         writer.writerows(data)
-
 
 
 def extract_json_data():
@@ -74,8 +74,22 @@ def extract_json_data():
         write_csv_file(updated_headers_list, list(data_set_data_list))
 
 
+def clean_data(data_frame):
+    data_frame.fillna(value='UNKNOWN', inplace=True)
+    data_frame.drop_duplicates(inplace=True)
+
+
 def main():
     extract_json_data()
+
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv('./results/data_set.csv')
+
+    # Apply data cleaning strategies
+    clean_data(df)
+
+    # Save the cleaned DataFrame back to the CSV file
+    df.to_csv('./results/cleaned_data_set.csv', index=False)
 
 
 if __name__ == "__main__":

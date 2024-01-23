@@ -5,7 +5,7 @@ import pandas as pd
 @st.cache_data
 def load_data():
     data = pd.read_csv(
-        './results/data_set.csv')
+        './results/cleaned_data_set.csv')
     return data
 
 
